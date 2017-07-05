@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { createStore } from 'redux'
+import { createStore } from './redux'
 import Counter from './components/Counter'
 import counter from './reducers'
 

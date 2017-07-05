@@ -36,8 +36,7 @@ export const ActionTypes = {
  * @returns {Store} A Redux store that lets you read the state, dispatch actions
  * and subscribe to changes.
  */
-export default function createStore(reducer, preloadedState, enhancer) {
-  console.log("logged")
+const createStore  = (reducer, preloadedState, enhancer) =>{
   if (typeof preloadedState === 'function' && typeof enhancer === 'undefined') {
     enhancer = preloadedState
     preloadedState = undefined
@@ -61,7 +60,7 @@ export default function createStore(reducer, preloadedState, enhancer) {
   let nextListeners = currentListeners
   let isDispatching = false
 
-  function ensureCanMutateNextListeners() {
+  const  ensureCanMutateNextListeners = () => {
     if (nextListeners === currentListeners) {
       nextListeners = currentListeners.slice()
     }
@@ -72,9 +71,7 @@ export default function createStore(reducer, preloadedState, enhancer) {
    *
    * @returns {any} The current state tree of your application.
    */
-  function getState() {
-    return currentState
-  }
+  const  getState = () => currentState
 
   /**
    * Adds a change listener. It will be called any time an action is dispatched,
@@ -99,7 +96,7 @@ export default function createStore(reducer, preloadedState, enhancer) {
    * @param {Function} listener A callback to be invoked on every dispatch.
    * @returns {Function} A function to remove this change listener.
    */
-  function subscribe(listener) {
+  const subscribe = (listener) =>{
     if (typeof listener !== 'function') {
       throw new Error('Expected listener to be a function.')
     }
@@ -109,7 +106,7 @@ export default function createStore(reducer, preloadedState, enhancer) {
     ensureCanMutateNextListeners()
     nextListeners.push(listener)
 
-    return function unsubscribe() {
+    return () =>{
       if (!isSubscribed) {
         return
       }
@@ -147,7 +144,7 @@ export default function createStore(reducer, preloadedState, enhancer) {
    * Note that, if you use a custom middleware, it may wrap `dispatch()` to
    * return something else (for example, a Promise you can await).
    */
-  function dispatch(action) {
+  const dispatch = (action) =>{
     if (!isPlainObject(action)) {
       throw new Error(
         'Actions must be plain objects. ' +
@@ -192,7 +189,7 @@ export default function createStore(reducer, preloadedState, enhancer) {
    * @param {Function} nextReducer The reducer for the store to use instead.
    * @returns {void}
    */
-  function replaceReducer(nextReducer) {
+  const replaceReducer = (nextReducer) =>{
     if (typeof nextReducer !== 'function') {
       throw new Error('Expected the nextReducer to be a function.')
     }
@@ -207,7 +204,7 @@ export default function createStore(reducer, preloadedState, enhancer) {
    * For more information, see the observable proposal:
    * https://github.com/tc39/proposal-observable
    */
-  function observable() {
+  const observable = () => {
     const outerSubscribe = subscribe
     return {
       /**
@@ -223,7 +220,7 @@ export default function createStore(reducer, preloadedState, enhancer) {
           throw new TypeError('Expected the observer to be an object.')
         }
 
-        function observeState() {
+        const observeState = () => {
           if (observer.next) {
             observer.next(getState())
           }
@@ -253,3 +250,5 @@ export default function createStore(reducer, preloadedState, enhancer) {
     [$$observable]: observable
   }
 }
+
+export default createStore
